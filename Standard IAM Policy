@@ -1,0 +1,30 @@
+{
+    "Version": "2023-11-03",
+    "Statement": [
+        {
+            "Sid": "Stmt1ITAdminRestrictedAccess",
+            "Effect": "Allow",
+            "Principal": {
+                "Type": ["Group"],
+                "Identifiers": ["IT-Admins"]
+            },
+            "Action": [
+                "ec2:StartInstances",
+                "ec2:StopInstances",
+                "s3:ListBucket",
+                "s3:GetBucketLocation"
+                // Precisely defined actions necessary for IT Admins
+            ],
+            "Resource": [
+                "arn:aws:ec2:::instance/*",
+                "arn:aws:s3:::specific-bucket-name"
+                // Explicitly specified resources
+            ],
+            "Condition": {
+                "Bool": {"aws:MultiFactorAuthPresent": "true"}
+                // MFA enforced
+            }
+        }
+        // Additional statements as needed with similar structure
+    ]
+}
